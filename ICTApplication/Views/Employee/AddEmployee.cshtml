@@ -1,0 +1,43 @@
+﻿@model ICTApplication.ViewModel.EmployeeViewModel
+@{
+    ViewBag.Title = "AddEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+
+}
+
+<h2>AddEmployee</h2>
+
+@using (@Html.BeginForm("SaveEmployee", "Employee",FormMethod.Post))
+{@Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Name)
+        @Html.TextBoxFor(m => m.Employee.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Employee.Name,"", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Code)
+        @Html.TextBoxFor(m => m.Employee.Code, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Employee.Code, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+       
+            @Html.LabelFor(m => m.Employee.DOB)
+            @Html.EditorFor(m => m.Employee.DOB, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", placeholder = "Date Of Birth" } })
+            @Html.ValidationMessageFor(m => m.Employee.DOB, "", new { @class = "text-danger" })
+        
+    </div>
+
+    <div class="form-group">
+     
+        @Html.DropDownListFor(m => m.Employee.DepId, new SelectList(Model.Department, "DepId", "Name"), "Select Department", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Employee.DepId, "", new { @class = "text-danger" })
+    </div>
+    @Html.HiddenFor(m => m.Employee.EmpId)
+    var c = @Model.Employee.EmpId > 0 ? "Update" : "Save";
+    <button type="submit" class="btn btn-primary">@c</button>
+}  

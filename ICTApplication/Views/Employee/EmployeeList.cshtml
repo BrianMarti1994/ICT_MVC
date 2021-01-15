@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "EmployeeList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Telerik.Web.Mvc.UI;
+@model IEnumerable<ICTApplication.Models.Employee>
+<h3><button class="">@Html.ActionLink("Add Employees", "AddEmployee", "Employee")</button> </h3>
+
+@{
+    Html.Telerik().Grid(Model)
+        .Name("MyGrid")
+        .Columns(col =>
+        {
+            col.Bound(o => o.EmpId).Width(120).Groupable(false);
+            col.Bound(o => o.Name).Width(120).Groupable(false);
+            col.Bound(o => o.Code).Groupable(false);
+            col.Bound(o => o.DOB).Groupable(false);
+            col.Bound(o => o.DepartmenName).Groupable(false);
+            col.Template(c => @Html.ActionLink("Edit", "Edit", new { id = c.EmpId }));
+            col.Template(c => @Html.ActionLink("Delete", "Delete", new { id = c.EmpId },
+    new { onclick = "return confirm('Are you sure you wish to delete this Data?');" }));
+
+        })
+        .Pageable(a => a.PageSize(5)) // for enable paging
+        .Groupable() // for enable grouping
+        .Sortable() // for sorting
+        .Filterable() // for Filtering
+        .Render();
+}
+
+@(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.windows7.css").Combined(true).Compress(true)))
+@(Html.Telerik().ScriptRegistrar())
+
+
+
